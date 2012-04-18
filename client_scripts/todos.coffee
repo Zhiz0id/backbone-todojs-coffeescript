@@ -149,7 +149,8 @@ $ ->
         events:
             "keypress #new-todo"  : "createOnEnter",
             "keyup #new-todo"     : "showTooltip",
-            "click .todo-clear a" : "clearCompleted"
+            "click .todo-clear a" : "clearCompleted",
+            "click .todo-select a": "selectAll"
 
         # At initialization we bind to the relevant events on the `Todos`
         # collection, when items are added or changed. Kick things off by
@@ -203,7 +204,10 @@ $ ->
                 todo.clear()
             )
             return false
-
+        selectAll: ->
+            _.each(Todos.remaining(), (todo) ->
+                todo.toggle()
+            )
         # Lazily show the tooltip that tells you to press `enter` to save
         # a new todo item, after one second.
         showTooltip: (e) ->
